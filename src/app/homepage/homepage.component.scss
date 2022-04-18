@@ -1,0 +1,9 @@
+//the next line is added to be able to set the css of prime ng items.
+ ::ng-deep  .p-dialog{
+    
+    .p-dialog-content{
+        overflow-x: hidden !important;
+    }
+    
+}
+
