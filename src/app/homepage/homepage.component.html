@@ -33,9 +33,9 @@
 					<div class="categorie-first-box2-fils1 cart-icone-show">
 						<fa-icon style="color:white;font-size: large;" [icon]="faHeart2"></fa-icon>
 					</div>
-					<span class="shop-card-length" ><p id="show-card-length" class="smal">0</p></span>
+					<span class="shop-card-length" (click)="shortCutFavorite()" ><p id="show-card-length" class="smal">0</p></span>
 					<div class="list-card" >
-						<span class="cart-icone" id="cart-icone-close"><fa-icon [icon]="faTimes"></fa-icon></span>
+						<span class="cart-icone" (click)="closeFavorite()" id="cart-icone-close"><fa-icon [icon]="faTimes"></fa-icon></span>
 						<div id="list-card"></div>
 						 <div class="total-text">
 						<p>Total: <span id="total-price">0 Xaf</span> </p>
@@ -505,11 +505,11 @@
 		</div>
 	</footer>
 	<!-- footer du mobile -->
-	<div class="footer-mobile hide-xs">
+	<div  class="footer-mobile hide-xs">
 		<a href="index.html"><fa-icon [icon]="faHome"></fa-icon></a>
-		<a class="hvr-float-shadow btn-localisation"><fa-icon [icon]="faMapMarket"></fa-icon></a>
-		<a class="hvr-float-shadow" id="RaccourciFavorie"><fa-icon [icon]="faHeart"></fa-icon></a>
-		<a class="hvr-float-shadow" id="RaccourciSearch"><fa-icon style="font-size:large" [icon]="faSearch"></fa-icon></a>
+		<a (click)="shortCutLocation()" class="hvr-float-shadow btn-localisation"><fa-icon [icon]="faMapMarket"></fa-icon></a>
+		<a (click)="shortCutFavorite()" class="hvr-float-shadow" id="RaccourciFavorie"><fa-icon [icon]="faHeart"></fa-icon></a>
+		<a (click)="shortCutSearch()" class="hvr-float-shadow" id="RaccourciSearch"><fa-icon style="font-size:large" [icon]="faSearch"></fa-icon></a>
 	</div>
 	<div class="content-copyright">
 		<span>© copyright @2021 Tous droits réservés | Par <a href="#">ITC-Services</a></span>

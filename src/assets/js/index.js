@@ -1,90 +1,6 @@
 	
 	// script popup s'inscrire
-			   $('.popup-sign-link').click(function(){
-				   $('.popup-signin').css({
-					   display:'block'
-				   });
-			   })
-			   
-			   $('.popup-sign-vendor-link').click(function(){
-				   $('.popup-signinVendor').css({
-					   display:'block'
-				   });
-			   })
 
-			   // script afficher popup se connecter
-			   $('.popup-login-link').click(function(){
-				   $('.popup-login').css({
-					   display:'block'
-				   });
-			   })
-
-			   $('.btn-contact-vendeur').click(function(){
-				   $('.popup-login').css({
-					   display:'block'
-				   });
-			   })
-
-			   // SIGNIN popup
-			   $('.popup-sign-link').magnificPopup({
-				 items: {
-					 src: '#popupSignIn',
-					 type: 'inline'
-				 },
-				 preloader:true
-			   });
-			   
-
-			   // LOGIN popup
-			   $('.popup-login-link').magnificPopup({
-				 items: {
-					 src: '#popupLogIn',
-					 type: 'inline'
-				 },
-				 preloader:true
-			   });
-			  
-			   // SIGNIN popup Vnedor
-			   $('.popup-sign-vendor-link').magnificPopup({
-				 items: {
-					 src: '#popupSignInVendor',
-					 type: 'inline'
-				 },
-				 preloader:true
-			   });
-
-			   $('.btn-contact-vendeur').magnificPopup({
-				 items: {
-					 src: '#popupLogIn',
-					 type: 'inline'
-				 },
-				 preloader:true
-			   });
-
-
-
-
-// fixer la bare des  menus
-
-// 	var win = $(window);
-
-// 	win.on('scroll', function () {
-	
-	// 	  var scroll = win.scrollTop();
-	
-	// 	  if (scroll >= 80) {
-		
-		// 		$(".categorie-second").addClass("fixed");
-		// 		$('.list-card').css({ top:'45px'});
-		
-		// 	  } else {
-			// 		$('.list-card').css({ top:'75px'});
-			// 		$(".categorie-second").removeClass("fixed");
-			
-			// 	  }
-			
-			// 	});
-			
 $(document).ready(function(){
 	// afficher menu mobile
 	$('.menu_rac').click(function(){
@@ -106,6 +22,7 @@ $(document).ready(function(){
 	var timeout;
 	$('.dropdown-vue').on({
 	  mouseenter: function() {
+		  console.log('yes');
 		$('.dropdown-content').show(0);
 	  },
 	  mouseleave: function() {
@@ -253,41 +170,10 @@ $(document).ready(function(){
 	  $(".section-container-images-shop2-box1a-fils-img-right").css("opacity","0");
 	  $(".section-container-images-shop2-box1a-fils-prix6").removeClass('effect-show-prix');
 	  $(".section-container-images-shop2-box1a-fils-prix-btn6").css("opacity","0");
-	});
-	
-	/* caroussel des images*/
-	
-	$('.owl-carousel').owlCarousel({
-	  items:1,
-	  loop:true,
-	  nav:true,
-	  autoplay:true,
-	  autoplaySpeed:1000,
-	  smartSpeed:1500,
-	  autoplayHoverPause:true
-	});
-	
+	});s
 	// show and hide cart panier
-	$('.categorie-first-box2').click(function(){
-	  $('#list-card').slideDown();
-	});
 	
-	$('#RaccourciFavorie').click(function(){
-	  $('.list-card').addClass('actives');
-	});
 
-	$('#RaccourciSearch').click(function(){
-		if($('.categorie-first-box1').hasClass('actives')){
-			$('.categorie-first-box1').slideUp();
-			$('.categorie-first-box1').removeClass('actives');
-		} else {
-			$('.categorie-first-box1').addClass('actives');
-			$('.categorie-first-box1').slideDown();
-		}
-		
-		
-	  });
-	
 	$('.add-to-cart').click(function(e) {
 	  e.preventDefault();
 	  	$(this).each(function () {
@@ -429,15 +315,7 @@ $(document).ready(function(){
   });
   $("#total-price").html("XAF &nbsp;" +totalPrice);
   }
-  let cart = document.querySelector('.list-card');
-  let cartshow = document.querySelector('.shop-card-length');
-  let cartclose = document.querySelector('#cart-icone-close');
-  cartshow.onclick= () => {
-  cart.classList.add("actives");
-  };
-  cartclose.onclick= () => {
-  cart.classList.remove("actives");
-  }
+  
 
 
 
@@ -447,35 +325,7 @@ $(document).ready(function(){
 
 // SCRIPT GESTION LOCALISATION
 
-$('.btn-localisation').click(function(){
-	$('#LocationPopup').css({
-		display:'block'
-	});
 
-	$.magnificPopup.open({
-		items: {
-			src: '#LocationPopup' 
-		},
-		type: 'inline'
-		  });
-	
-})
-
-setTimeout(function() {
-	if ($('#LocationPopup').length) {
-	  $.magnificPopup.open({
-	   items: {
-		   src: '#LocationPopup' 
-	   },
-	   type: 'inline'
-		 });
-		 
-	  }
-
-	  $('#LocationPopup').css({
-		  display:'block'
-	  });
-	}, 5000);
 
 
 
