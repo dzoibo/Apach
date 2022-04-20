@@ -135,7 +135,27 @@ export class HomepageComponent implements OnInit {
   closeFavorite(){
     document.querySelector('.list-card')?.classList.remove("actives")
   }
-  lll(){
-    console.log('hover')
+  hoverProduct(){
+        $(".image-hover2 img").addClass('zoom-effect-img');
+        $(".image-hover2").css("border","1px solid #f3f3f3")
+        $(".right-2").css("opacity","9");
+        $(".section-container-images-shop2-box1a-fils-prix2").addClass('effect-show-prix');
+        $(".section-container-images-shop2-box1a-fils-prix-btn2").css("opacity","9");
   }
+  outProduct(){
+      $(".image-hover2 img").removeClass('zoom-effect-img');
+      $(".image-hover2").css("border","none")
+      $(".section-container-images-shop2-box1a-fils-img-right").css("opacity","0");
+      $(".section-container-images-shop2-box1a-fils-prix2").removeClass('effect-show-prix');
+      $(".section-container-images-shop2-box1a-fils-prix-btn2").css("opacity","0");
+  }
+
+  
+	/* changement de couleur sur le menu
+	
+	$('nav ul li a').click(function(){
+	  $('nav ul li a').removeClass('active');
+	  $(this).closest('nav ul li a').addClass('active');
+	  
+	});*/
 }
