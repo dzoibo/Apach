@@ -1,14 +1,23 @@
 // Gestion des images à uploader
-$('.preview').click(function(){
-    $('input[name=avatar]').click()
+$('.preview0').click(function(){
+    $('input[name=apercu0]').click()
+});
+$('.preview1').click(function(){
+    $('input[name=apercu1]').click()
+});
+$('.preview2').click(function(){
+    $('input[name=apercu2]').click()
+});
+$('.preview3').click(function(){
+    $('input[name=apercu3]').click()
 });
 
-function updateImageDisplay() {
-    var input = document.querySelector('input[name=avatar]');
-    var preview = document.querySelector('.preview');
+function updateImageDisplay(avatar, preview) {
+    var input = document.querySelector('input[name='+avatar+']');
+    var preview = document.querySelector('.'+preview);
 
     input.style.opacity = 0;
-    preview.style.width = '300px';
+    preview.style.width = '150px';
 
   while(preview.firstChild) {
     preview.removeChild(preview.firstChild);
@@ -76,7 +85,9 @@ $(document).ready(function () {
         minimumResultsForSearch: Infinity
         
     });
-    $('.SelectAction').find('option')(0).css({background:'#000'});
+    
+    $('.MultipleSelect').select2();
+    // $('.SelectAction').find('option')(0).css({background:'#000'});
     
 });
 
@@ -203,9 +214,11 @@ $(document).ready(function () {
 
 // Tooltip
 $(document).ready(function () {
-    $('[data-toggle="tooltip"]').tooltip({
-        container: 'body'
-    });
+    if($('[data-toggle="tooltip"]')){
+        $('[data-toggle="tooltip"]').tooltip({
+            container: 'body'
+        });
+    }
 });
 // /Tooltip
 

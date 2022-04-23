@@ -1,3 +1,51 @@
+
+
+ // Piece jointe Popup
+// Lorsquon clique sur l'icone en coeur à coté de la zone de saisi des messages.
+ $('#PieceJointe').click(function(){
+	 var id_recpteur = $('.contact.active').attr('data-id_recepteur');
+	$.ajax({
+
+		type:'POST',
+		url:'assets/traitement_ajax/traitement_PJ.php',
+		data:'id_recepteur='+id_recpteur, 
+		success:function(html){
+			// endLoading();
+			// alert(id_recpteur)
+			$('#contenuPJ').html(html);
+		}
+	}); 
+
+	$('.popup-pj').css({
+		display:'block'
+	});
+})
+
+ $('#PieceJointe').magnificPopup({
+	items: {
+		src: '#popupPieceJointe',
+		type: 'inline'
+	},
+	preloader:true
+  });
+
+//   Lorsqu'on clique sur le bouton joindre dans le popup
+$('#BtnJoindre').click(function(e){
+	e.preventDefault();
+	$('#ContenuJoint').html('');
+	$("input:checked").each(function() {
+		$('.checkmark').hide();
+		var produit_joint = $(this).parent().parent();
+		$('#ContenuJoint').append(produit_joint);
+	});
+	$('.content-piece-jointe').slideDown();
+	$('.mfp-close').click();
+});
+$('#RemovePJ').click(function(){
+	$('.content-piece-jointe').slideUp();
+	$('#ContenuJoint').html('');
+});
+
 $(".messages").animate({ scrollTop: $(document).height() }, "fast");
 
 $("#profile-img").click(function() {

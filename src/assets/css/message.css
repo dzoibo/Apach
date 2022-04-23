@@ -19,7 +19,7 @@ body {
   /* max-width: 1000px; */
   height: 100vh;
   min-height: 300px;
-  max-height: 750px;
+  max-height: 75vh;
   background: #ffffff;
 }
 @media screen and (max-width: 360px) {
@@ -644,7 +644,7 @@ box-shadow: -4px 0px 8px 1px #ddd;}
   z-index: 4;
   margin-top: 10px;
   font-size: 1.1em;
-  color: #435f7a;
+  color: #f44336;
   opacity: 0.5;
   cursor: pointer;
 }

@@ -12,6 +12,11 @@ import {CarouselModule} from 'primeng/carousel';
 import { MessageComponent } from './message/message.component';
 import { FilterComponent } from './filter/filter.component';
 import { DetailsComponent } from './details/details.component';
+import { ProduitsComponent } from './produits/produits.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { AdminTopNavComponent } from './admin-top-nav/admin-top-nav.component';
+import { AdminLeftNavComponent } from './admin-left-nav/admin-left-nav.component';
+import { DetailsProduitsComponent } from './details-produits/details-produits.component';
 
 
 
@@ -19,6 +24,7 @@ const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path:'message', component:MessageComponent },
   { path:'home', component:HomepageComponent },
+  { path:'listproduit', component:ProduitsComponent },
   { path: '**', redirectTo: '/message' }
   ];
 @NgModule({
@@ -28,6 +34,11 @@ const appRoutes: Routes = [
     MessageComponent,
     FilterComponent,
     DetailsComponent,
+    ProduitsComponent,
+    DashboardComponent,
+    AdminTopNavComponent,
+    AdminLeftNavComponent,
+    DetailsProduitsComponent,
   ],
   imports: [
     BrowserModule,
