@@ -13,7 +13,6 @@ import { MessageComponent } from './message/message.component';
 import { FilterComponent } from './filter/filter.component';
 import { DetailsComponent } from './details/details.component';
 import{PlatformModule} from '@angular/cdk/platform';
-import { HomePageComponent } from './pages/home-page/home-page.component';
 
 
 
@@ -30,7 +29,6 @@ const appRoutes: Routes = [
     MessageComponent,
     FilterComponent,
     DetailsComponent,
-    HomePageComponent,
   ],
   imports: [
     PlatformModule,
