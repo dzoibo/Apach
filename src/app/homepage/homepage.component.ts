@@ -1,10 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { faFacebookF, faGooglePlusG, faLinkedin, faTwitter, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
-import {faMapMarked, faSearch,faHeart,faTimes, faUser, faUserPlus, faEye, faAngleRight, faPhoneAlt, faEnvelope, faMapMarkedAlt, faMapMarkerAlt, faMapMarker, faBars, faAngleDown, faCity, faHome, faLock, faPhone, faArchway, faHeartPulse, faHeartCircleBolt, faHeartCircleExclamation } from '@fortawesome/free-solid-svg-icons';
+import {faTrashAlt,faMapMarked, faSearch,faHeart,faTimes, faUser, faUserPlus, faEye, faAngleRight, faPhoneAlt, faEnvelope, faMapMarkedAlt, faMapMarkerAlt, faMapMarker, faBars, faAngleDown, faCity, faHome, faLock, faPhone, faArchway, faHeartPulse, faHeartCircleBolt, faHeartCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as faHeart2 } from '@fortawesome/free-regular-svg-icons';
 import * as $ from 'jQuery';
-import { AcceuilService } from '../services/acceuil.service';
+import {  ProductService } from '../services/Product.service';
+import { Produit } from '../Models'
+import { Platform } from '@angular/cdk/platform';
 
+export interface ab {
+  a?: number;
+}
 
 @Component({
   selector: 'app-homepage',
@@ -13,9 +18,12 @@ import { AcceuilService } from '../services/acceuil.service';
 })
 
 
+
+
+
 export class HomepageComponent implements OnInit {
   
-  customOptions=[];
+  //all these propertiesbellow are the fontawesome for angular 
   faSearch=faSearch;
   faMark=faMapMarked;
   faHeart=faHeart;
@@ -23,6 +31,7 @@ export class HomepageComponent implements OnInit {
   faTimes=faTimes;
   faUser=faUser;
   faEye=faEye;
+  faTrash=faTrashAlt;
   faUserPlus=faUserPlus;
   faAngleRight=faAngleRight;
   faPhoneAlt=faPhoneAlt;
@@ -40,6 +49,16 @@ export class HomepageComponent implements OnInit {
   faPhone=faPhone;
   faArchway=faArchway;
   faBars=faBars;
+
+  customOptions=[];
+
+  
+  products=[{// this is just a simple template to use in the slide that we make using prime ng in the template file
+    name:'yes',
+  },
+  {
+    name:'yes',
+  }]
   SignIn=false;
   signInVendor=false;
   login=false;
@@ -47,17 +66,23 @@ export class HomepageComponent implements OnInit {
   location=false;
   signIn=false;
   headerDialog!:string;
-  products=[{
-    name:'yes',
-  },
-  {
-    name:'yes',
-  }]
+  
   responsiveOptions:any;
   shortCutActived=false;//this variable is to know if one shortCut is already activated to desactive it before display the other one and evide the conflict between them;
-
   
-  constructor(private acceuil:AcceuilService) {
+  productList:Produit[]=[];// the variable who will get the list of product all...
+  productSelected:{
+    product:Produit,
+    quantity:number,
+  }[]=[];
+  totalFav:number;
+
+  constructor(private productService:ProductService,private platform:Platform) {
+    this.totalFav=0;
+    this.headerDialog='Localisation';
+    setTimeout(()=>{
+      this.location=true;
+    },1000)
     this.responsiveOptions = [
       {
           breakpoint: '1024px',
@@ -78,11 +103,49 @@ export class HomepageComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.headerDialog='Localisation';
-   setTimeout(()=>{
-    this.location=true;
-   },1000)
+    this.productList=this.productService.getProductList()
   }
+  
+   addFav(Product:Produit){
+     $('html,body').animate({scrollTop:0},400,'swing',function(){
+     })
+    for (const product of this.productSelected){
+        if(Product.idProduit===product.product.idProduit){
+          alert('Vous avez deja ajoute ce produit à vos favoris');
+          return false;
+      }
+    }
+    this.productSelected.push({product:Product,quantity:1});
+    this.totalFav=Product.nouveauPrix+this.totalFav;
+    return true;
+   }
+
+   removeFav(id:number){
+    for (const Product of this.productSelected){
+      if(id===Product.product.idProduit){
+        var index= this.productSelected.indexOf(Product);
+        this.productSelected.splice(index,1);
+        this.totalFav=this.totalFav-Product.product.nouveauPrix;
+        return false
+      }
+    }
+    return true
+  }
+
+  changeQuantity(event:any,id:number){
+    console.log($(event.target).val());
+    for (const Product of this.productSelected){
+      if(id===Product.product.idProduit){
+        try {
+          
+          Product.product.qtiteProduit=$(event.target).val()
+        } catch (error) {
+          
+        }
+      }
+    }
+  }
+
   showDialog(action:string){
     if(action==='signIn'){
       this.signIn=true;
@@ -108,9 +171,14 @@ export class HomepageComponent implements OnInit {
         
   }
   shortCutFavorite(){
-	  $('.list-card').addClass('actives');
-    $('.categorie-first-box1').slideUp();// we hide the search bar
-    $('.categorie-first-box1').removeClass('actives');
+    if(this.platform.ANDROID || this.platform.IOS){
+      $('.categorie-first-box1').slideUp();// we hide the search bar
+    }
+    setTimeout(() => {// we use the time out to be sure that if there is a search bar we will desappear before the favorite side appear
+      $('.list-card').addClass('actives');
+      $('.categorie-first-box1').removeClass('actives');
+    }, 500);
+	  
   }
   shortCutSearch(){
     this.closeFavorite();
@@ -127,7 +195,7 @@ export class HomepageComponent implements OnInit {
     if(this.location===true){
       this.location=false;
     }
-    this.showDialog('Location');
+    this.showDialog('Localisation');
     this.closeFavorite();
     $('.categorie-first-box1').slideUp();// we hide the search bar
     $('.categorie-first-box1').removeClass('actives');
@@ -135,19 +203,19 @@ export class HomepageComponent implements OnInit {
   closeFavorite(){
     document.querySelector('.list-card')?.classList.remove("actives")
   }
-  hoverProduct(){
-        $(".image-hover2 img").addClass('zoom-effect-img');
-        $(".image-hover2").css("border","1px solid #f3f3f3")
-        $(".right-2").css("opacity","9");
-        $(".section-container-images-shop2-box1a-fils-prix2").addClass('effect-show-prix');
-        $(".section-container-images-shop2-box1a-fils-prix-btn2").css("opacity","9");
+  hoverProduct(id:number){
+        $(".image-hover"+id+" img").addClass('zoom-effect-img');
+        $(".image-hover"+id+"").css("border","1px solid #f3f3f3")
+        $(".right-"+id+"").css("opacity","9");
+        $(".section-container-images-shop2-box1a-fils-prix"+id+"").addClass('effect-show-prix');
+        $(".section-container-images-shop2-box1a-fils-prix-btn"+id+"").css("opacity","9");
   }
-  outProduct(){
-      $(".image-hover2 img").removeClass('zoom-effect-img');
-      $(".image-hover2").css("border","none")
+  outProduct(id:number){
+      $(".image-hover"+id+" img").removeClass('zoom-effect-img');
+      $(".image-hover"+id+"").css("border","none")
       $(".section-container-images-shop2-box1a-fils-img-right").css("opacity","0");
-      $(".section-container-images-shop2-box1a-fils-prix2").removeClass('effect-show-prix');
-      $(".section-container-images-shop2-box1a-fils-prix-btn2").css("opacity","0");
+      $(".section-container-images-shop2-box1a-fils-prix"+id+"").removeClass('effect-show-prix');
+      $(".section-container-images-shop2-box1a-fils-prix-btn"+id+"").css("opacity","0");
   }
 
   

@@ -1,6 +1,6 @@
 	<!-- <div ng-include="'assets/includes/header-part.html'"></div> -->
 
-	<section>
+	<section id="ac_session">
 		<div class="container-categorie">
 
 			<!-- Debut de la div search--> 
@@ -33,12 +33,31 @@
 					<div class="categorie-first-box2-fils1 cart-icone-show">
 						<fa-icon style="color:white;font-size: large;" [icon]="faHeart2"></fa-icon>
 					</div>
-					<span class="shop-card-length" (click)="shortCutFavorite()" ><p id="show-card-length" class="smal">0</p></span>
+					<span class="shop-card-length" (click)="shortCutFavorite()" ><p id="show-card-length" class="smal">{{productSelected.length}}</p></span>
 					<div class="list-card" >
 						<span class="cart-icone" (click)="closeFavorite()" id="cart-icone-close"><fa-icon [icon]="faTimes"></fa-icon></span>
-						<div id="list-card"></div>
+							<div id="list-card">
+								<div *ngFor="let Product of productSelected" id="show-list-card" class="list-item " >
+									
+									<div class="cart-image">
+										<img [src]="Product.product.image1" >
+									</div>
+									<div class="cart-box">
+										<span class="cart-box-title">
+											{{Product.product.nameProduit}}
+										</span>
+										<span class="cart-box-price">
+											<span class='eachPrice'>{{Product.product.nouveauPrix}}</span>
+										</span>
+										<span class="cart-box-qty">
+											<input type="number" value="1" min="1" class="cart-box-qty-input" (change)="changeQuantity($event,Product.product.idProduit)">
+										</span>
+									</div>
+									<fa-icon [icon]="faTrash" (click)="removeFav(Product.product.idProduit)"></fa-icon>
+								</div>
+							</div>
 						 <div class="total-text">
-						<p>Total: <span id="total-price">0 Xaf</span> </p>
+						<p>Total: <span id="total-price">{{totalFav}}</span> </p>
 						</div> 
 					</div>
 					
@@ -275,146 +294,28 @@
 			<div class="section-container-images-shop2-trait"></div>
 			<div class="section-container-images-shop2-box1">
 				<div class="section-container-images-shop2-box1a">
-					<div class="section-container-images-shop2-box1a-fils image-hover1">
-						<div class="section-container-images-shop2-box1a-fils-img ">
-							<div class="section-container-images-shop2-box1a-fils-img-left">
-								<span class="div-border">1225485</span>
-							</div>
-							<div class="section-container-images-shop2-box1a-fils-img-right right-1">
-								<span class="add-to-cart" data-id="1" data-name="Livre 1" data-price="1200,00" data-image="assets/img/mMYQiKv.jpg">
-									<fa-icon [icon]="faHeart"></fa-icon>
-								</span>
-								<span>
-									<a href="details-produit.html"><fa-icon [icon]="faEye"></fa-icon></a>
-								</span>
-							</div>
-							<img src="assets/img/mMYQiKv.jpg">
-						</div>
-
-						
-						
-					</div>
-					<div class="section-container-images-shop2-box1a-fils image-hover2" (mouseover)="hoverProduct()" (mouseout)="outProduct()">
+					
+					<div *ngFor="let product of productList" [ngClass]="'image-hover'+product.idProduit"  class="section-container-images-shop2-box1a-fils " (mouseover)="hoverProduct(product.idProduit)" (mouseout)="outProduct(product.idProduit)">
 						<div class="section-container-images-shop2-box1a-fils-img">
 							<div class="section-container-images-shop2-box1a-fils-img-left">
-								<span class="div-border">12254kkkk5</span>
+								<span class="div-border" title="quantité">{{product.qtiteProduit}}</span>
 							</div>
-							<div class="section-container-images-shop2-box1a-fils-img-right right-2">
-								<span class="add-to-cart" data-id="2" data-name="Livre 2" data-price="1000,00" data-image="assets/img/rcuzej21.jpg">
+							<div class="section-container-images-shop2-box1a-fils-img-right " [ngClass]="'right-'+product.idProduit">
+								<span  (click)="addFav(product)">
 									<fa-icon [icon]="faHeart"></fa-icon>
 								</span>
 								<span>
 									<a href="details-produit.html"><fa-icon [icon]="faEye"></fa-icon></a>
 								</span>
 							</div>
-							<img src="assets/img/rcuzej21.jpg">
+							<img [src]="product.image1">
 						</div>
-						<div class="section-container-images-shop2-box1a-fils-prix2 item-detail">
+						<div class=" item-detail" [ngClass]="'section-container-images-shop2-box1a-fils-prix'+product.idProduit">
 							<div class="section-container-images-shop2-box1a-fils-prix">
-								<h4 class="title">Ecouteurs livre2</h4>
-								<h5 class="price">1000 Xaf&nbsp;&nbsp;<small>  1250 Xaf</small></h5>
-								<div class="section-container-images-shop2-box1a-fils-prix-btn2 section-container-images-shop2-box1a-fils-prix-btn">
+								<h4 class="title">{{product.nameProduit}}</h4>
+								<h5 class="price">{{product.nouveauPrix}} Xaf&nbsp;&nbsp;<small *ngIf="product.ancienPrix>0">  {{product.ancienPrix}} Xaf</small></h5>
+								<div [ngClass]="'section-container-images-shop2-box1a-fils-prix-btn'+product.idProduit" class=" section-container-images-shop2-box1a-fils-prix-btn">
 									<button onclick="location. replace('admin.html')"><fa-icon [icon]="faPhoneAlt" aria-hidden="true"></fa-icon>&nbsp;&nbsp;Contactez le vendeur</button>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="section-container-images-shop2-box1a-fils image-hover3">
-						<div class="section-container-images-shop2-box1a-fils-img">
-							<div class="section-container-images-shop2-box1a-fils-img-left">
-								<span class="div-border">1225485</span>
-							</div>
-							<div class="section-container-images-shop2-box1a-fils-img-right right-3">
-								<span class="add-to-cart" data-id="3" data-image="assets/img/n600TBvk.jpg" data-name="Livre 3" data-price="1100,00">
-									<fa-icon [icon]="faHeart"></fa-icon>
-								</span>
-								<span>
-									<a href="details-produit.html"><fa-icon [icon]="faEye"></fa-icon></a>
-								</span>
-							</div>
-							<img src="assets/img/n600TBvk.jpg">
-						</div>
-						<div class="section-container-images-shop2-box1a-fils-prix3 item-detail">
-							<div class="section-container-images-shop2-box1a-fils-prix">
-								<h4 class="title">Ecouteurs livre3</h4>
-								<h5 class="price">1000 Xaf&nbsp;&nbsp;<small>1250 Xaf</small></h5>
-								<div class="section-container-images-shop2-box1a-fils-prix-btn3 section-container-images-shop2-box1a-fils-prix-btn">
-									<button onclick="location. replace('admin.html')"><fa-icon [icon]="faPhoneAlt" aria-hidden="true"></fa-icon>&nbsp;&nbsp;Contactez le vendeur</button>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="section-container-images-shop2-box1a-fils image-hover4">
-						<div class="section-container-images-shop2-box1a-fils-img">
-							<div class="section-container-images-shop2-box1a-fils-img-left">
-								<span class="div-border">1225485</span>
-							</div>
-							<div class="section-container-images-shop2-box1a-fils-img-right right-4">
-								<span class="add-to-cart" data-id="4" data-image="assets/img/lpBdEgz.jpg" data-name="Livre 4" data-price="1000,00">
-									<fa-icon [icon]="faHeart"></fa-icon>
-								</span>
-								<span>
-									<a href="details-produit.html"><fa-icon [icon]="faEye"></fa-icon></a>
-								</span>
-							</div>
-							<img src="assets/img/lpBdEgz.jpg">
-						</div>
-						<div class="section-container-images-shop2-box1a-fils-prix4 item-detail">
-							<div class="section-container-images-shop2-box1a-fils-prix">
-								<h4 class="title">Ecouteurs livre4</h4>
-								<h5 class="price">1000 Xaf&nbsp;&nbsp;<small>1250 Xaf</small></h5>
-								<div class="section-container-images-shop2-box1a-fils-prix-btn4 section-container-images-shop2-box1a-fils-prix-btn">
-									<button><fa-icon [icon]="faPhoneAlt" aria-hidden="true"></fa-icon>&nbsp;&nbsp;Contactez le vendeur</button>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="section-container-images-shop2-box1a-fils image-hover5">
-						<div class="section-container-images-shop2-box1a-fils-img">
-							<div class="section-container-images-shop2-box1a-fils-img-left">
-								<span class="div-border">1225485</span>
-							</div>
-							<div class="section-container-images-shop2-box1a-fils-img-right right-5">
-								<span class="add-to-cart" data-id="5"  data-image="assets/img/lGEAgOab.jpg" data-name="Livre 5" data-price="1000,00">
-									<fa-icon [icon]="faHeart"></fa-icon>
-								</span>
-								<span>
-									<a href="details-produit.html"><fa-icon [icon]="faEye"></fa-icon></a>
-								</span>
-							</div>
-							<img src="assets/img/lGEAgOab.jpg">
-						</div>
-						<div class="section-container-images-shop2-box1a-fils-prix5 item-detail">
-							<div class="section-container-images-shop2-box1a-fils-prix">
-								<h4 class="title">Ecouteurs livre5</h4>
-								<h5 class="price">1000 Xaf&nbsp;&nbsp;<small>1250 Xaf</small></h5>
-								<div class="section-container-images-shop2-box1a-fils-prix-btn5 section-container-images-shop2-box1a-fils-prix-btn">
-									<button><fa-icon [icon]="faPhoneAlt" aria-hidden="true"></fa-icon>&nbsp;&nbsp;Contactez le vendeur</button>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="section-container-images-shop2-box1a-fils image-hover6">
-						<div class="section-container-images-shop2-box1a-fils-img">
-							<div class="section-container-images-shop2-box1a-fils-img-left">
-								<span class="div-border">1225485</span>
-							</div>
-							<div class="section-container-images-shop2-box1a-fils-img-right right-6">
-								<span class="add-to-cart" data-id="6" data-image="assets/img/WDhub2R.jpg" data-name="Livre 6" data-price="1000,00">
-									<fa-icon [icon]="faHeart"></fa-icon>
-								</span>
-								<span>
-									<a href="details-produit.html"><fa-icon [icon]="faEye"></fa-icon></a>
-								</span>
-							</div>
-							<img src="assets/img/WDhub2R.jpg">
-						</div>
-						<div class="section-container-images-shop2-box1a-fils-prix6 item-detail">
-							<div class="section-container-images-shop2-box1a-fils-prix">
-								<h4 class="title">Ecouteurs livre6</h4>
-								<h5 class="price">1000 Xaf&nbsp;&nbsp;<small>1250 Xaf</small></h5>
-								<div class="section-container-images-shop2-box1a-fils-prix-btn6 section-container-images-shop2-box1a-fils-prix-btn">
-									<button><fa-icon [icon]="faPhoneAlt" aria-hidden="true"></fa-icon>&nbsp;&nbsp;Contactez le vendeur</button>
 								</div>
 							</div>
 						</div>

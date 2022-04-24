@@ -2078,10 +2078,12 @@ div#popupSignInVendor {
     line-height: 20px;
     z-index: 10;
     left: 0;
+    width: 35px;
     color: #ffffff;
     font-size: 23px;
     background: #4598e9;
-    padding: 10.5px;
+    padding-top: 10.5px;
+    padding-bottom: 10.5px;
     border-radius: 2px 0 0 2px;
 }
 

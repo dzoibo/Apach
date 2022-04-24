@@ -5,13 +5,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { AcceuilService } from './services/acceuil.service';
+import { ProductService } from './services/Product.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DialogModule } from "primeng/dialog";
 import {CarouselModule} from 'primeng/carousel';
 import { MessageComponent } from './message/message.component';
 import { FilterComponent } from './filter/filter.component';
 import { DetailsComponent } from './details/details.component';
+import{PlatformModule} from '@angular/cdk/platform';
+import { HomePageComponent } from './pages/home-page/home-page.component';
 
 
 
@@ -28,8 +30,10 @@ const appRoutes: Routes = [
     MessageComponent,
     FilterComponent,
     DetailsComponent,
+    HomePageComponent,
   ],
   imports: [
+    PlatformModule,
     BrowserModule,
     DialogModule,
     AppRoutingModule,
@@ -43,7 +47,7 @@ const appRoutes: Routes = [
     NO_ERRORS_SCHEMA
   ],
   providers: [
-    AcceuilService
+    ProductService
   ],
   bootstrap: [AppComponent]
 })
