@@ -6,3 +6,18 @@
     }
     
 }
+
+button[disabled]{
+    opacity: 0.5;
+}
+#hidePassword{
+    right: 5px;
+    top:10px;
+    position:absolute;
+    fa-icon{
+        font-size:large;
+        color: black;
+        background-color: transparent;
+        position:relative !important;
+    }
+}

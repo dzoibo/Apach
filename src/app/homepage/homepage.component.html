@@ -315,7 +315,7 @@
 								<h4 class="title">{{product.nameProduit}}</h4>
 								<h5 class="price">{{product.nouveauPrix}} Xaf&nbsp;&nbsp;<small *ngIf="product.ancienPrix>0">  {{product.ancienPrix}} Xaf</small></h5>
 								<div [ngClass]="'section-container-images-shop2-box1a-fils-prix-btn'+product.idProduit" class=" section-container-images-shop2-box1a-fils-prix-btn">
-									<button onclick="location. replace('admin.html')"><fa-icon [icon]="faPhoneAlt" aria-hidden="true"></fa-icon>&nbsp;&nbsp;Contactez le vendeur</button>
+									<button (click)="goToMessage()" ><fa-icon [icon]="faPhoneAlt" aria-hidden="true"></fa-icon>&nbsp;&nbsp;Contactez le vendeur</button>
 								</div>
 							</div>
 						</div>
@@ -407,8 +407,9 @@
 	</footer>
 	<!-- footer du mobile -->
 	<div  class="footer-mobile hide-xs">
-		<a href="index.html"><fa-icon [icon]="faHome"></fa-icon></a>
-		<a (click)="shortCutLocation()" class="hvr-float-shadow btn-localisation"><fa-icon [icon]="faMapMarket"></fa-icon></a>
+		<a routerLink="home"><fa-icon [icon]="faHome"></fa-icon></a>
+		<!--<a (click)="shortCutLocation()" class="hvr-float-shadow btn-localisation"><fa-icon [icon]="faMapMarket"></fa-icon></a> -->
+		<a (click)="goToMessage()" class="hvr-float-shadow btn-localisation"><fa-icon [icon]="faEnvelope"></fa-icon></a>
 		<a (click)="shortCutFavorite()" class="hvr-float-shadow" id="RaccourciFavorie"><fa-icon [icon]="faHeart"></fa-icon></a>
 		<a (click)="shortCutSearch()" class="hvr-float-shadow" id="RaccourciSearch"><fa-icon style="font-size:large" [icon]="faSearch"></fa-icon></a>
 	</div>
@@ -416,10 +417,9 @@
 		<span>© copyright @2021 Tous droits réservés | Par <a href="#">ITC-Services</a></span>
 	</div>
 
-	<!-- GeoLocalisation popup -->
+	<!-- GeoLocalisation popup 
 	<p-dialog [(visible)]="location" [draggable]="false" [header]="headerDialog" [modal]="true" 
     [resizable]="true">
-							
 		<div class="content-popup ">
 			
 			<div class="content-error-message">
@@ -461,127 +461,81 @@
 				</form>
 			</div>
 		</div>
-	</p-dialog>
+	</p-dialog>-->
 
 	
 	<!-- Connexion Inscription Popup -->
 	<p-dialog [(visible)]="signIn" [draggable]="false" [header]="headerDialog" [modal]="true" 
     [resizable]="true">
-	<div class="popup-body"  >
-		<form action="admin.html">
-			<div class="item-form">
-				<label>Nom</label>
-				<fa-icon [icon]="faUser"></fa-icon>
-				<input type="text" name="nom" class="control-form" placeholder="Saisir Nom">
-			</div>
-			
-			<div class="item-form">
-				<label>Prenom</label>
-				<fa-icon [icon]="faUser"></fa-icon>
-				<input type="text" name="prenom" class="control-form" placeholder="Saisir Prenom">
-			</div>
-
-			<div class="item-form">
-				<label>Email</label>
-				<fa-icon [icon]="faEnvelope"></fa-icon>
-				<input type="email" name="email" class="control-form" placeholder="Saisir email ">
-			</div>
-			<div class="item-form">
-				<label>Mot de passe</label>
-				<fa-icon [icon]="faLock"></fa-icon>
-				<input type="password" name="motdepasse" class="control-form">
-			</div>
-			<div class="item-form">
-				<label>Confirmer mot de passe</label>
-				<fa-icon [icon]="faLock"></fa-icon>
-				<input type="password" name="confirm_motdepasse" class="confirm-password control-form">
-			</div>
-
-			<div class="item-form checkbox-item">
-				<label>Oui, j'accepte les conditions d'utilisation de la plateforme</label>
-				<input type="checkbox"  checked="checked" name="condition" class="control-form">
-				<span class="checkmark"></span>
-			</div>
-
-			<div class="content-btn-popup">
-				<button type="submit" class="btn bg-bleue">S'inscrire</button>
-			</div>
-
-			<div class="popup-footer">
-				<div class="contition-text-content">
-					<p>En vous inscrivant, vous acceptez notre <a href="#">Conditions d'utilisation</a>  Et <a href="#">Politique de confidentialité</a>.</p>
-				</div>
-				<div class="raccourci-login">
-					<p>Vous avez déjà un compte ? <a href="#" class="popup-login-link">S'identifier</a></p>
-				</div>
-			</div>
-		</form>
-	</div>
-	</p-dialog>
-
-	<p-dialog [(visible)]="signInVendor" [draggable]="false"  [header]="headerDialog" [modal]="true" 
-    [resizable]="true">
-		<div class="popup-body">
-			<form action="admin.html">
-				<div class="form-row">
-					<div class="item-form">
-						<label>Nom Complet</label>
-						<fa-icon [icon]="faUser"></fa-icon>
-						<input type="text" name="nom" class="control-form" placeholder="Saisir Nom">
-					</div>
+		<div class="popup-body"  >
+			<form [formGroup]="signInForm" (ngSubmit)="Inscription(1)">
+				<div class="item-form">
+					<label>Nom</label>
+					<fa-icon [icon]="faUser"></fa-icon>
+					<input type="text" name="nom" class="control-form" placeholder="Saisir Nom" id="loginName"  formControlName="Name">
+				
 				</div>
 
-				<div class="form-row">
-					<div class="item-form">
-						<label>Email</label>
-						<fa-icon [icon]="faEnvelope"></fa-icon>
-						<input type="email" name="email" class="control-form" placeholder="Saisir email ">
-					</div>
-					<div class="item-form">
-						<label>Telephone</label>
-						<fa-icon [icon]="faPhone"></fa-icon>
-						<input type="number" name="phone" class="control-form" placeholder="Saisir telephone ">
-					</div>
+				<div class="item-form">
+					<label>Prenom</label>
+					<fa-icon [icon]="faUser"></fa-icon>
+					<input type="text" name="nom" class="control-form" placeholder="Saisir Nom" id="loginName"  formControlName="Surname">
+				</div>
 
+				<div class="item-form">
+					<label>Telephone</label>
+					<fa-icon [icon]="faPhone"></fa-icon>
+					<input type="number" name="phone" class="control-form" placeholder="Saisir telephone" formControlName="Phone">
+				</div>
+
+				<div class="item-form">
+					<label>Email</label>
+					<fa-icon [icon]="faEnvelope"></fa-icon>
+					<input type="email" name="email" class="control-form" placeholder="Saisir email" id="loginName" formControlName="Email" >
 				</div>
 				
-				<div class="form-row">
-					<div class="item-form">
-						<label>Nom de la boutique</label>
-						<fa-icon [icon]="faArchway"></fa-icon>
-						<input type="text" name="shopname" class="control-form" placeholder="Saisir nom de la boutique ">
-					</div>
-					<div class="item-form">
-						<label>Adresse</label>
-						<fa-icon [icon]="faMapMarket"></fa-icon>
-						<input type="text" name="adresse" class="control-form" placeholder="Saisir adresse de la boutique ">
-					</div>
-
+				<div class="item-form">
+					<label>Mot de passe</label>
+					<fa-icon [icon]="faLock"></fa-icon>
+					<input type="password" placeholder="Au moins 6 caractéres"  formControlName="Password" class="control-form">
 				</div>
-
-				<div class="form-row">
-					<div class="item-form">
-						<label>Mot de passe</label>
-						<fa-icon [icon]="faLock"></fa-icon>
-						<input type="password" name="motdepasse" class="control-form">
-					</div>
-					<div class="item-form">
-						<label>Confirmer mot de passe</label>
-						<fa-icon [icon]="faLock"></fa-icon>
-						<input type="password" name="confirm_motdepasse" class="confirm-password control-form">
-					</div>
+				<div class="item-form">
+					<label>Confirmer mot de passe</label>
+					<fa-icon [icon]="faLock"></fa-icon>
+					<input type="password" name="confirm_motdepasse" formControlName="ConfirmPassword" class="confirm-password control-form">
 				</div>
-				
-
-
-				<div class="item-form checkbox-item">
+				<div class="item-form">
+					<label>Adresse</label>
+						<div class="item-form modal-select SelectRegion">
+							<label>Choisir votre région</label>
+							<fa-icon [icon]="faMapMarket"></fa-icon>
+							<select class="filter-select-localisation select-ville " id="SelectRegion" (change)="getVille($event)" formControlName="Region">
+								<option *ngFor="let region of Place" [value]="region.idRegion" >{{region.nameRegion}}</option>
+							</select>
+						</div>
+						<div class="item-form modal-select">
+							<label>Choisir votre ville</label>
+							<fa-icon [icon]="faCity"></fa-icon>
+							<select class="filter-select-localisation select-quartier " id="SelectVille" (change)="getQuartier($event)" formControlName="Town">
+								<option *ngFor="let ville of Ville" [value]="ville.idVille" >{{ville.nameVille}}</option>
+							</select>
+						</div>
+		
+						<div class="item-form modal-select">
+							<label>Choisir votre quartier</label>
+							<fa-icon [icon]="faHome"></fa-icon>
+							<select class="filter-select-localisation select-quartier " id="SelectQuartier" formControlName="Quarter">
+								<option *ngFor="let quartier of Quartier" [value]="quartier.idQuartier" >{{quartier.nameQuartier}}</option>
+							</select>
+						</div>
+				</div>
+				<div >
+					<input type="checkbox"  checked formControlName="Condition" class="control-form">
 					<label>Oui, j'accepte les conditions d'utilisation de la plateforme</label>
-					<input type="checkbox"  checked="checked" name="condition" class="control-form">
-					<span class="checkmark"></span>
 				</div>
 
 				<div class="content-btn-popup">
-					<button type="submit" class="btn bg-bleue">S'inscrire</button>
+					<button type="submit" [disabled]="signInForm.invalid" class="btn bg-bleue">S'inscrire</button>
 				</div>
 
 				<div class="popup-footer">
@@ -589,8 +543,116 @@
 						<p>En vous inscrivant, vous acceptez notre <a href="#">Conditions d'utilisation</a>  Et <a href="#">Politique de confidentialité</a>.</p>
 					</div>
 					<div class="raccourci-login">
-						<p>Vous avez déjà un compte ? <a href="#" class="popup-login-link">S'identifier</a></p>
+						<p>Vous avez déjà un compte ? <a (click)="showDialog('connexion')" class="popup-login-link" style="cursor: pointer;">S'identifier</a></p>
 					</div>
+					<div id="errorSignIn" style="text-align: center;color: red;">
+						<p>{{LoginError}}</p>
+					</div>
+				</div>
+			</form>
+		</div>
+	</p-dialog>
+
+	<p-dialog [(visible)]="signInVendor" [draggable]="false"  [header]="headerDialog" [modal]="true" 
+    [resizable]="true">
+		<div class="popup-body">
+			<form [formGroup]="signInVendorForm" (ngSubmit)="Inscription(2)">
+				<div class="form-row">
+					<div class="item-form">
+						<label>Nom</label>
+						<fa-icon [icon]="faUser"></fa-icon>
+						<input type="text" name="nom" class="control-form" placeholder="Saisir Nom"  formControlName="Name">
+					</div>
+					<div class="item-form">
+						<label>Prenom</label>
+						<fa-icon [icon]="faUser"></fa-icon>
+						<input type="text" name="nom" class="control-form" placeholder="Saisir Nom" formControlName="Surname">
+					</div>
+				</div>
+				
+				<div class="form-row">
+					<div class="item-form">
+						<label>Email</label>
+						<fa-icon [icon]="faEnvelope"></fa-icon>
+						<input type="email" name="email" class="control-form" placeholder="Saisir email"  formControlName="Email" >
+					</div>
+					<div class="item-form">
+						<label>Telephone</label>
+						<fa-icon [icon]="faPhone"></fa-icon>
+						<input type="number" name="phone" class="control-form" placeholder="Saisir telephone" formControlName="Phone">
+					</div>
+		
+				</div>
+				<div class="form-row">
+					<div class="item-form">
+						<label>Nom de la boutique</label>
+						<fa-icon [icon]="faArchway"></fa-icon>
+						<input type="text" name="shopname" class="control-form" placeholder="Saisir nom de la boutique " formControlName="Shop">
+					</div>
+					<div class="item-form">
+						<label>Adresse</label>
+						<div class="item-form modal-select SelectRegion">
+							<label>Choisir votre région</label>
+							<fa-icon [icon]="faMapMarket"></fa-icon>
+							<select class="filter-select-localisation select-ville " id="SelectRegion" (change)="getVille($event)" formControlName="Region">
+								<option *ngFor="let region of Place" [value]="region.idRegion" >{{region.nameRegion}}</option>
+							</select>
+						</div>
+						<div class="item-form modal-select">
+							<label>Choisir votre ville</label>
+							<fa-icon [icon]="faCity"></fa-icon>
+							<select class="filter-select-localisation select-quartier " id="SelectVille" formControlName="Town" (change)="getQuartier($event)">
+								<option *ngFor="let ville of Ville" [value]="ville.idVille" >{{ville.nameVille}}</option>
+							</select>
+						</div>
+		
+						<div class="item-form modal-select">
+							<label>Choisir votre quartier</label>
+							<fa-icon [icon]="faHome"></fa-icon>
+							<select class="filter-select-localisation select-quartier " id="SelectQuartier" formControlName="Quarter">
+								<option *ngFor="let quartier of Quartier" [value]="quartier.idQuartier" >{{quartier.nameQuartier}}</option>
+							</select>
+						</div>
+						
+					</div>
+		
+				</div>
+		
+				<div class="form-row">
+					<div class="item-form">
+						<label>Mot de passe</label>
+						<fa-icon [icon]="faLock"></fa-icon>
+						<input type="password" name="motdepasse" class="control-form" formControlName="Password">
+					</div>
+					<div class="item-form">
+						<label>Confirmer mot de passe</label>
+						<fa-icon [icon]="faLock"></fa-icon>
+						<input type="password" name="confirm_motdepasse" class="confirm-password control-form" formControlName="ConfirmPassword">
+					</div>
+				</div>
+				
+		
+		
+				<div >
+					<input type="checkbox" class="control-form" formControlName="Condition">
+					<label>Oui, j'accepte les conditions d'utilisation de la plateforme</label>
+				</div>
+		
+				<div class="content-btn-popup">
+					<button type="submit" [disabled]="signInVendorForm.invalid" class="btn bg-bleue">S'inscrire</button>
+				</div>
+		
+				<div class="popup-footer">
+					<div class="contition-text-content">
+						<p>En vous inscrivant, vous acceptez notre <a href="#">Conditions d'utilisation</a>  Et <a href="#">Politique de confidentialité</a>.</p>
+					</div>
+					<div class="raccourci-login">
+						<p>Vous avez déjà un compte ? <a (click)="showDialog('connexion')" class="popup-login-link" style="cursor:pointer;">S'identifier</a></p>
+					</div>
+					<div id="errorVendor" style="text-align: center;color: red;">
+						<p>{{LoginError}}</p>
+					</div>
+					
 				</div>
 			</form>
 		</div>	
@@ -599,27 +661,33 @@
 	<p-dialog [(visible)]="login" [draggable]="false" [header]="headerDialog" [modal]="true" 
     [resizable]="true">
 	
-			<div class="popup-body">
-				<form action="admin.html">
+			<div class="popup-body" >
+				<form [formGroup]="loginForm" (ngSubmit)="Connection()">
 					<div class="item-form">
 						<label>Email</label>
 						<fa-icon [icon]="faEnvelope"></fa-icon>
-						<input type="email" name="email" class="control-form" placeholder="Saisir email">
+						<input type="email" name="email" class="control-form" placeholder="Saisir email" formControlName="Email">
 					</div>
 					<div class="item-form">
 						<label>Mot de passe</label>
 						<fa-icon [icon]="faLock"></fa-icon>
-						<input type="password" name="motdepasse" class="control-form" placeholder="Saisir mot de passe">
+						<input formControlName="Password" [type]="showPassword ? 'text' : 'password'" name="motdepasse" class="control-form" placeholder="Saisir mot de passe" formControlName="Password">
+						<div (click)="onPasswordToggle()" id="hidePassword" >
+						 	<fa-icon  [icon]="fashowEye"></fa-icon>  <!-- this display icon different icon depend dor the user todisplay or not the pasword-->
+						</div>
 					</div>
 	
 	
 					<div class="content-btn-popup">
-						<button type="submit" class="btn bg-bleue">Se connecter</button>
+						<button type="submit" class="btn bg-bleue" [disabled]="loginForm.invalid" >Se connecter</button>
 					</div>
 	
 					<div class="popup-footer">
 						<div class="raccourci-login">
-							<p>Vous n'avez pas de compte ? <a href="#" class="popup-sign-link">S'inscrire</a></p>
+							<p>Vous n'avez pas de compte ? <a class="popup-sign-link" style="cursor: pointer;"  (click)="showDialog('signIn')">S'inscrire</a></p>
+						</div>
+						<div id="error" style="text-align: center;color: red;">
+							<p>{{LoginError}}</p>
 						</div>
 					</div>
 				</form>
