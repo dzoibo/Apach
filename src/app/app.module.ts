@@ -11,21 +11,27 @@ import { DialogModule } from "primeng/dialog";
 import {CarouselModule} from 'primeng/carousel';
 import { MessageComponent } from './message/message.component';
 import { FilterComponent } from './filter/filter.component';
-import { DetailsComponent } from './details/details.component';
-import { ProduitsComponent } from './produits/produits.component';
+import { DetailsComponent } from './edit-produit/details.component';
+import { ProduitsComponent } from './list-produits/produits.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AdminTopNavComponent } from './admin-top-nav/admin-top-nav.component';
 import { AdminLeftNavComponent } from './admin-left-nav/admin-left-nav.component';
 import { DetailsProduitsComponent } from './details-produits/details-produits.component';
+import { ProfilComponent } from './profil/profil.component';
+import { AdminHomepageComponent } from './admin-homepage/admin-homepage.component';
 
 
 
 const appRoutes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  // { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path:'message', component:MessageComponent },
   { path:'home', component:HomepageComponent },
-  { path:'listproduit', component:ProduitsComponent },
-  { path: '**', redirectTo: '/message' }
+  { path:'dashboard', component:DashboardComponent },
+  { path:'profil', component:ProfilComponent },
+  { path:'filtre', component:FilterComponent },
+  { path:'edit-produit', component:DetailsComponent },
+  { path:'liste-produit', component:ProduitsComponent }
+  // { path: '**', redirectTo: '/message' }
   ];
 @NgModule({
   declarations: [
@@ -39,6 +45,8 @@ const appRoutes: Routes = [
     AdminTopNavComponent,
     AdminLeftNavComponent,
     DetailsProduitsComponent,
+    ProfilComponent,
+    AdminHomepageComponent,
   ],
   imports: [
     BrowserModule,
