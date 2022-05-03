@@ -1,9 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { faFacebookF, faGooglePlusG, faLinkedin, faTwitter, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
-import {faMapMarked, faSearch,faHeart,faTimes, faUser, faUserPlus, faEye, faAngleRight, faPhoneAlt, faEnvelope, faMapMarkedAlt, faMapMarkerAlt, faMapMarker, faBars, faAngleDown, faCity, faHome, faLock, faPhone, faArchway, faHeartPulse, faHeartCircleBolt, faHeartCircleExclamation } from '@fortawesome/free-solid-svg-icons';
+import { FormBuilder, FormGroup,Validators } from '@angular/forms';
+import {faTrashAlt,faMapMarked, faSearch,faHeart,faTimes, faUser, faUserPlus, faEye, faAngleRight, faPhoneAlt, faEnvelope, faMapMarkedAlt, faMapMarkerAlt, faMapMarker, faBars, faAngleDown, faCity, faHome, faLock, faPhone, faArchway, faHeartPulse, faHeartCircleBolt, faHeartCircleExclamation, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as faHeart2 } from '@fortawesome/free-regular-svg-icons';
 import * as $ from 'jQuery';
-import { AcceuilService } from '../services/acceuil.service';
+import {  ProductService } from '../services/Product.service';
+import { location, Produit, Quartier, User, ville } from '../Models'
+import { Platform } from '@angular/cdk/platform';
+import {  Router } from '@angular/router';
+import { MessageService } from '../services/message.service';
+import { AuthService } from '../services/auth.service';
+import { ConnectionService } from 'ng-connection-service';
+
 
 
 @Component({
@@ -13,9 +21,14 @@ import { AcceuilService } from '../services/acceuil.service';
 })
 
 
-export class HomepageComponent implements OnInit {
+
+
+
+export class HomepageComponent implements OnInit,OnDestroy {
   
-  customOptions=[];
+  //all these propertiesbellow are the fontawesome for angular 
+  fashowEye=faEyeSlash;
+  faEyeSlash=faEyeSlash;
   faSearch=faSearch;
   faMark=faMapMarked;
   faHeart=faHeart;
@@ -23,6 +36,7 @@ export class HomepageComponent implements OnInit {
   faTimes=faTimes;
   faUser=faUser;
   faEye=faEye;
+  faTrash=faTrashAlt;
   faUserPlus=faUserPlus;
   faAngleRight=faAngleRight;
   faPhoneAlt=faPhoneAlt;
@@ -40,6 +54,36 @@ export class HomepageComponent implements OnInit {
   faPhone=faPhone;
   faArchway=faArchway;
   faBars=faBars;
+
+  NameError!:string;
+  PasswordError!:string;
+  LoginError="";
+  loginForm!:FormGroup;
+  signInForm!:FormGroup;
+  signInVendorForm!:FormGroup;
+  User!:User;
+  authStatus!:boolean;
+  //online: boolean = navigator.onLine; maybe this can tcheck if there is connection in the angular app
+  showPassword:boolean=false;
+  spinner=false;
+  selectedLanguage!:string;
+  title!:string;
+  permission:string='cashierOnly';
+  identification!:string;
+  error1!:string;
+  error2!:string;
+  error3!:string;
+
+  //@ViewChild('loginName') inputName: any  ; this is the case where we wwant to make validation using the enter keys and the submitByEnterFunction
+  customOptions=[];
+
+  
+  products=[{// this is just a simple template to use in the slide that we make using prime ng in the template file
+    name:'yes',
+  },
+  {
+    name:'yes',
+  }]
   SignIn=false;
   signInVendor=false;
   login=false;
@@ -47,17 +91,41 @@ export class HomepageComponent implements OnInit {
   location=false;
   signIn=false;
   headerDialog!:string;
-  products=[{
-    name:'yes',
-  },
-  {
-    name:'yes',
-  }]
+  
   responsiveOptions:any;
   shortCutActived=false;//this variable is to know if one shortCut is already activated to desactive it before display the other one and evide the conflict between them;
-
   
-  constructor(private acceuil:AcceuilService) {
+  productList:Produit[]=[];// the variable who will get the list of product all...
+  productSelected:{
+    product:Produit,
+    quantity:number,
+  }[]=[];
+  totalFav:number;
+  status='OFFLINE';
+  isConnected!:boolean;
+  Place!:location[];
+  Ville:ville[]=[];
+  Quartier:Quartier[]=[];
+
+  constructor(private connectionService:ConnectionService, private authService:AuthService, private formBuilder:FormBuilder,private messageService:MessageService ,private router:Router,  private productService:ProductService,private platform:Platform) {
+    this.connectionService.monitor().subscribe(isConnected=>{
+      this.isConnected=isConnected;
+      if (this.isConnected) {
+        this.status = "ONLINE";
+      }
+      else {
+        this.status = "OFFLINE";
+
+      }
+    })
+    console.log(this.status)
+    
+    this.initForm();
+    this.totalFav=0;
+    this.headerDialog='Connexion';
+    setTimeout(()=>{
+      this.login=true;
+    },1000)
     this.responsiveOptions = [
       {
           breakpoint: '1024px',
@@ -75,15 +143,99 @@ export class HomepageComponent implements OnInit {
           numScroll: 1
       }
   ];
+    this.Place=this.productService.getLocation();
    }
+  ngOnDestroy(): void {
+    throw new Error('Method not implemented.');
+  }
+  
+  getVille(event:any){
+    var idRegion:number= +event.target.value
+    for ( const Region of this.Place ){
+      if(Region.idRegion===idRegion){
+        this.Ville=Region.villeRegion
+      }
+    }
+  }
+
+  getQuartier(event:any){
+    var idVille:number= +event.target.value
+    for ( const Region of this.Place ){
+      for(const town of Region.villeRegion){
+        if(idVille===town.idVille){
+          this.Quartier=town.quartierVille
+        }
+      }
+    }
+  }
 
   ngOnInit(): void {
-    this.headerDialog='Localisation';
-   setTimeout(()=>{
-    this.location=true;
-   },1000)
+    this.productList=this.productService.getProductList();
   }
+  
+   addFav(Product:Produit){
+     $('html,body').animate({scrollTop:0},400,'swing',function(){
+     })
+    for (const product of this.productSelected){
+        if(Product.idProduit===product.product.idProduit){
+          alert('Vous avez deja ajoute ce produit à vos favoris');
+          return false;
+      }
+    }
+    this.productSelected.push({product:Product,quantity:1});
+    this.getPrice()
+    return true;
+   }
+
+   removeFav(id:number){
+    for (const Product of this.productSelected){
+      if(id===Product.product.idProduit){
+        var index= this.productSelected.indexOf(Product);
+        this.productSelected.splice(index,1);
+        this.getPrice()
+        return false
+      }
+    }
+    return true
+  }
+
+  
+  public onPasswordToggle(): void {
+    this.showPassword=!this.showPassword
+    if(this.fashowEye===this.faEye){
+      this.fashowEye=this.faEyeSlash
+    }else{
+      this.fashowEye=this.faEye
+    }
+  }
+  changeQuantity(event:any,id:number){
+    for (const Product of this.productSelected){
+      if(id===Product.product.idProduit){
+        try {
+          const bar:any=$(event.target).val();
+          Product.quantity=bar;
+        } catch (error) {
+          console.log("erreur",error);
+        }
+      }
+    }
+    this.getPrice();
+  }
+
+  getPrice(){
+    var price=0
+    for (const Product of this.productSelected){
+      price = price + (Product.quantity*Product.product.nouveauPrix);
+    }
+    this.totalFav=price;
+  }
+
   showDialog(action:string){
+    this.LoginError="";
+    this.signIn=false;
+    this.location=false;
+    this.signInVendor=false;
+    this.login=false;
     if(action==='signIn'){
       this.signIn=true;
       this.headerDialog='';
@@ -108,9 +260,14 @@ export class HomepageComponent implements OnInit {
         
   }
   shortCutFavorite(){
-	  $('.list-card').addClass('actives');
-    $('.categorie-first-box1').slideUp();// we hide the search bar
-    $('.categorie-first-box1').removeClass('actives');
+    if(this.platform.ANDROID || this.platform.IOS){
+      $('.categorie-first-box1').slideUp();// we hide the search bar
+    }
+    setTimeout(() => {// we use the time out to be sure that if there is a search bar we will desappear before the favorite side appear
+      $('.list-card').addClass('actives');
+      $('.categorie-first-box1').removeClass('actives');
+    }, 500);
+	  
   }
   shortCutSearch(){
     this.closeFavorite();
@@ -127,7 +284,7 @@ export class HomepageComponent implements OnInit {
     if(this.location===true){
       this.location=false;
     }
-    this.showDialog('Location');
+    this.showDialog('Localisation');
     this.closeFavorite();
     $('.categorie-first-box1').slideUp();// we hide the search bar
     $('.categorie-first-box1').removeClass('actives');
@@ -135,7 +292,133 @@ export class HomepageComponent implements OnInit {
   closeFavorite(){
     document.querySelector('.list-card')?.classList.remove("actives")
   }
-  lll(){
-    console.log('hover')
+  hoverProduct(id:number){
+        $(".image-hover"+id+" img").addClass('zoom-effect-img');
+        $(".image-hover"+id+"").css("border","1px solid #f3f3f3")
+        $(".right-"+id+"").css("opacity","9");
+        $(".section-container-images-shop2-box1a-fils-prix"+id+"").addClass('effect-show-prix');
+        $(".section-container-images-shop2-box1a-fils-prix-btn"+id+"").css("opacity","9");
   }
+  outProduct(id:number){
+      $(".image-hover"+id+" img").removeClass('zoom-effect-img');
+      $(".image-hover"+id+"").css("border","none")
+      $(".section-container-images-shop2-box1a-fils-img-right").css("opacity","0");
+      $(".section-container-images-shop2-box1a-fils-prix"+id+"").removeClass('effect-show-prix');
+      $(".section-container-images-shop2-box1a-fils-prix-btn"+id+"").css("opacity","0");
+  }
+
+  goToMessage(){
+    this.closeFavorite();
+    $('.categorie-first-box1').slideUp();// we hide the search bar
+    $('.categorie-first-box1').removeClass('actives');
+    this.router.navigate(['/message'])
+  }
+	initForm() {
+    this.loginForm = this.formBuilder.group({
+      Email: ['',Validators.required],
+      Password: ['',[Validators.minLength(6),Validators.required]],
+    });
+
+    this.signInVendorForm=this.formBuilder.group({
+      Name: ['',Validators.required],
+      Surname: ['',Validators.required],
+      Email: ['',Validators.required],
+      Phone: ['',Validators.required],
+      Shop: ['',Validators.required],
+      Region: ['',Validators.required],
+      Town: ['',Validators.required],
+      Quarter: ['',Validators.required],
+      Password: ['',[Validators.minLength(6),Validators.required]],
+      ConfirmPassword: ['',[Validators.minLength(6),Validators.required]],
+      Condition:['',Validators.required]
+
+    });
+    
+    this.signInForm=this.formBuilder.group({
+      Name: ['',Validators.required],
+      Surname: ['',Validators.required],
+      Email: ['',Validators.required],
+      Phone: ['',Validators.required],
+      Region: ['',Validators.required],
+      Town: ['',Validators.required],
+      Quarter: ['',Validators.required],
+      Password: ['',[Validators.minLength(6),Validators.required]],
+      ConfirmPassword: ['',[Validators.minLength(6),Validators.required]],
+      Condition:['',Validators.required]
+    });
+  }
+
+   
+  async Connection(){
+    console.log('connection')
+    this.LoginError='';
+    if(!this.status){
+      this.LoginError=this.error1;  //'No connection';
+      return false;
+    }
+    const formValue = this.loginForm.value;
+    let login:any;
+        this.spinner=true;
+          try
+          {
+            login=  await this.authService.GetUser(formValue['Name'],formValue['Password']);
+            this.spinner=false;
+
+          } catch (error) {
+            this.spinner=false;
+            this.LoginError= this.error2, //'Server error please try again';
+            console.log('erroooor', error, JSON.stringify(error), formValue['Name'], formValue['Password'],formValue['Language']);
+            return false;
+          }
+          if( login !== 'null' ){
+            this.authService.signIn().then(
+             async () => {
+                this.initForm()
+                this.LoginError='';
+                try {
+                  this.User=new User();
+                  this.authStatus = this.authService.isAuth;
+                  this.authService.User=login;// so this function is suppose to return a new user
+                } catch (error) {
+                 console.log(error) 
+                } 
+              }
+            ); 
+          }
+          else{
+            this.LoginError=this.error3 //'Invalid Password or Username';
+          }
+          return true 
+        }
+     async Inscription(type:number)
+     {
+      this.LoginError='';
+      if(!this.status){
+        this.LoginError=this.error1;  //'No connection';
+        return false;
+      }
+      this.spinner=true
+      var login!:any;
+       if (type===1){//it's an simple inscription
+        const formValue=this.signInForm.value 
+          if(formValue['Password']!==formValue['ConfirmPassword']){
+            this.LoginError='Veuillez entrer des mots de passe identiques';
+            window.location.hash = '#errorSignIn';
+            return false
+          }
+          login=await this.authService.createUser(formValue['Name'],formValue['Surname'], formValue['Email'],formValue['Quarter'],formValue['Phone'],formValue['Password']);
+       }else{// it's a vendor's inscription
+        const formValue=this.signInVendorForm.value
+        if(formValue['Password']!==formValue['ConfirmPassword']){
+          this.LoginError='Veuillez entrer des mots de passe identiques';
+          window.location.hash = '#errorVendor';
+          return false
+        }// we shoould add awaiton this function after..
+        login=this.authService.createVendor(formValue['Name'],formValue['Surname'],formValue['Shop'],formValue['Email'],formValue['Quarter'],formValue['Phone'],formValue['Password']);
+       }
+       return true;
+     } 
+
+        
 }
+

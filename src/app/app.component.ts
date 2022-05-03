@@ -10,6 +10,7 @@ import { HomepageComponent } from './homepage/homepage.component';
 export class AppComponent {
   title = 'apach';
   constructor(private router:Router){
+
     // this.router.navigate(['/dashboard'])
   }
 }

@@ -50,13 +50,6 @@ $(document).ready(function(){
 	  }
 	});
 	
-	/* changement de couleur sur le menu*/
-	
-	$('nav ul li a').click(function(){
-	  $('nav ul li a').removeClass('active');
-	  $(this).closest('nav ul li a').addClass('active');
-	  
-	});
 	
 	/* afficher les fils du dropdown */
 	
@@ -83,159 +76,11 @@ $(document).ready(function(){
 	  $('.dropdown-content-li3').hide();
 	});
 	
-	/* afficher les elements des images en faisant un hover*/
 	
-	$('.image-hover1').hover(function() {
-	  $(".image-hover1 img").addClass('zoom-effect-img');
-	  $(".image-hover1").css("border","1px solid #f3f3f3")
-	  $(".right-1").css("opacity","9");
-	  $(".section-container-images-shop2-box1a-fils-prix1").addClass('effect-show-prix');
-	  $(".section-container-images-shop2-box1a-fils-prix-btn1").css("opacity","9");
-	  
-	}, function() {
-	  $(".image-hover1 img").removeClass('zoom-effect-img');
-	  $(".image-hover1").css("border","none")
-	  $(".right-1").css("opacity","0");
-	  $(".section-container-images-shop2-box1a-fils-prix1").removeClass('effect-show-prix');
-	  $(".section-container-images-shop2-box1a-fils-prix-btn1").css("opacity","0");
-	});
-	
-	$('.image-hover2').hover(function() {
-	  $(".image-hover2 img").addClass('zoom-effect-img');
-	  $(".image-hover2").css("border","1px solid #f3f3f3")
-	  $(".right-2").css("opacity","9");
-	  $(".section-container-images-shop2-box1a-fils-prix2").addClass('effect-show-prix');
-	  $(".section-container-images-shop2-box1a-fils-prix-btn2").css("opacity","9");
-	  
-	}, function() {
-	  $(".image-hover2 img").removeClass('zoom-effect-img');
-	  $(".image-hover2").css("border","none")
-	  $(".section-container-images-shop2-box1a-fils-img-right").css("opacity","0");
-	  $(".section-container-images-shop2-box1a-fils-prix2").removeClass('effect-show-prix');
-	  $(".section-container-images-shop2-box1a-fils-prix-btn2").css("opacity","0");
-	});
-	$('.image-hover3').hover(function() {
-	  $(".image-hover3 img").addClass('zoom-effect-img');
-	  $(".image-hover3").css("border","1px solid #f3f3f3")
-	  $(".right-3").css("opacity","9");
-	  $(".section-container-images-shop2-box1a-fils-prix3").addClass('effect-show-prix');
-	  $(".section-container-images-shop2-box1a-fils-prix-btn3").css("opacity","9");
-	  
-	}, function() {
-	  $(".image-hover3 img").removeClass('zoom-effect-img');
-	  $(".image-hover3").css("border","none")
-	  $(".section-container-images-shop2-box1a-fils-img-right").css("opacity","0");
-	  $(".section-container-images-shop2-box1a-fils-prix3").removeClass('effect-show-prix');
-	  $(".section-container-images-shop2-box1a-fils-prix-btn3").css("opacity","0");
-	});
-	$('.image-hover4').hover(function() {
-	  $(".image-hover4 img").addClass('zoom-effect-img');
-	  $(".image-hover4").css("border","1px solid #f3f3f3")
-	  $(".right-4").css("opacity","9");
-	  $(".section-container-images-shop2-box1a-fils-prix4").addClass('effect-show-prix');
-	  $(".section-container-images-shop2-box1a-fils-prix-btn4").css("opacity","9");
-	  
-	}, function() {
-	  $(".image-hover4 img").removeClass('zoom-effect-img');
-	  $(".image-hover4").css("border","none")
-	  $(".section-container-images-shop2-box1a-fils-img-right").css("opacity","0");
-	  $(".section-container-images-shop2-box1a-fils-prix4").removeClass('effect-show-prix');
-	  $(".section-container-images-shop2-box1a-fils-prix-btn4").css("opacity","0");
-	});
-	$('.image-hover5').hover(function() {
-	  $(".image-hover5 img").addClass('zoom-effect-img');
-	  $(".image-hover5").css("border","1px solid #f3f3f3")
-	  $(".right-5").css("opacity","9");
-	  $(".section-container-images-shop2-box1a-fils-prix5").addClass('effect-show-prix');
-	  $(".section-container-images-shop2-box1a-fils-prix-btn5").css("opacity","9");
-	  
-	}, function() {
-	  $(".image-hover5 img").removeClass('zoom-effect-img');
-	  $(".image-hover5").css("border","none")
-	  $(".section-container-images-shop2-box1a-fils-img-right").css("opacity","0");
-	  $(".section-container-images-shop2-box1a-fils-prix5").removeClass('effect-show-prix');
-	  $(".section-container-images-shop2-box1a-fils-prix-btn5").css("opacity","0");
-	});
-	
-	$('.image-hover6').hover(function() {
-	  $(".image-hover6 img").addClass('zoom-effect-img');
-	  $(".image-hover6").css("border","1px solid #f3f3f3")
-	  $(".right-6").css("opacity","9");
-	  $(".section-container-images-shop2-box1a-fils-prix6").addClass('effect-show-prix');
-	  $(".section-container-images-shop2-box1a-fils-prix-btn6").css("opacity","9");
-	  
-	}, function() {
-	  $(".image-hover6 img").removeClass('zoom-effect-img');
-	  $(".image-hover6").css("border","none")
-	  $(".section-container-images-shop2-box1a-fils-img-right").css("opacity","0");
-	  $(".section-container-images-shop2-box1a-fils-prix6").removeClass('effect-show-prix');
-	  $(".section-container-images-shop2-box1a-fils-prix-btn6").css("opacity","0");
-	});s
+
 	// show and hide cart panier
 	
 
-	$('.add-to-cart').click(function(e) {
-	  e.preventDefault();
-	  	$(this).each(function () {
-			var name = $(this).attr("data-name");
-			var id = $(this).attr("data-id");
-			var price = "<span class='eachPrice'>" +$(this).attr("data-price")+ "</span>";
-			var image= "<img src="+$(this).attr("data-image")+">";
-			var box_content=$(".list-item"+id);
-			var box_content_id=box_content.attr("data-id");
-			if(box_content){
-			if(box_content_id==id){
-				alert('Vous avez deja ajoute ce produit à vos favoris');
-			}else{
-				var body = $('html, body');
-				body.animate({scrollTop: 0}, 400, 'swing', function() {
-				
-				});
-				var content_cart=`<div id="show-list-card" class="list-item list-item${id}" data-id="${id}">
-							<div class="cart-image">
-							${image}
-							</div>
-							<div class="cart-box">
-								<span class="cart-box-title">
-								${name}
-								</span>
-								<span class="cart-box-price">
-								${price}
-								</span>
-								<span class="cart-box-qty">
-									<input type="number" value="1" min="1" class="cart-box-qty-input" onclick="quantityChange();">
-								</span>
-							</div>
-								<i class="fas fa-trash-alt remove cart-remove"></i>
-							
-				</div>`;
-				
-				$("#list-card").append(content_cart);
-				//number of items in basket
-				$("#show-card-length").text($("#list-card").children().length);
-			}
-			}
-			//calculate total price
-			var totalPrice = 0;
-			$(".eachPrice").each(function (){
-			var cenaEach = parseFloat($(this).text());
-			totalPrice+=cenaEach;
-			});
-			$("#total-price").html("XAF &nbsp;" +totalPrice);
-		});
-		
-		$(".remove").on("click", function () {
-			$(this).parent().remove();
-			var totalPrice = 0;
-			$(".eachPrice").each(function (){
-			var cenaEach = parseFloat($(this).text());
-			totalPrice+=cenaEach;
-			});
-			$("#total-price").html("XAF &nbsp;" +totalPrice);
-			$("#show-card-length").text($("#list-card").children().length);
-		});
-	});
-  
   
   // open box chat
   $('.chat-box').click(function(){
