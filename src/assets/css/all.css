@@ -6,7 +6,6 @@
 small{
     text-decoration:line-through;
 }
-.padding-6 {}
 
 .hide-xs{
     display: none;
@@ -668,10 +667,7 @@ ul.dropdown-content
 	padding: 0 20%;
 	display: none;
 }
-.owl-item
-{
-	width: ;
-}
+
 .owl-dots
 {
 	width: 100%;
@@ -1596,10 +1592,6 @@ p.pd__related__title {
     padding-left: 1em;
 }
 
-.pd__related__img {}
-
-.pd__related__img div {}
-
 .pd__related__price .sale-price {
     font-weight: 900;
     color: #1e262d;
@@ -1756,11 +1748,6 @@ p.pd__related__title {
     transform: scale(1.1);
 }
 
-.pd__bottom__item:hover .pd__bottom__img {
-    /* border-top: 1px solid rgba(0, 0, 0, 0.1); */
-    /* border-left: 1px solid rgba(0, 0, 0, 0.1); */
-    /* border-right: 1px solid rgba(0, 0, 0, 0.1); */
-}
 
 .pd__bottom__item:hover .pd__bottom__content {
     transform: translateY(-70px);
@@ -2320,10 +2307,6 @@ div#popupSignInVendor {
 {
 	margin-top: 1em;
 }
-/*.cards .cards-info .stars {
-  display: block;
-  text-align: center;
-}*/
 .stars {
     cursor: pointer;
 }
@@ -2409,9 +2392,6 @@ div#popupSignInVendor {
 .add-to-cart-btn:hover{
   color:#00a19d;
   background-color: #fff;
-}
-.cards:hover{
-  /* box-shadow: 0px 0px 3px #555; */
 }
 .row {
     display: -ms-flexbox;

@@ -11,6 +11,19 @@ import { DialogModule } from "primeng/dialog";
 import {CarouselModule} from 'primeng/carousel';
 import { MessageComponent } from './message/message.component';
 import { FilterComponent } from './filter/filter.component';
+import { DetailsComponent } from './edit-produit/details.component';
+import { ProduitsComponent } from './list-produits/produits.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { AdminTopNavComponent } from './admin-top-nav/admin-top-nav.component';
+import { AdminLeftNavComponent } from './admin-left-nav/admin-left-nav.component';
+import { DetailsProduitsComponent } from './details-produits/details-produits.component';
+import { ProfilComponent } from './profil/profil.component';
+import { AdminHomepageComponent } from './admin-homepage/admin-homepage.component';
+
+
+
+const appRoutes: Routes = [
+  // { path: '', redirectTo: '/home', pathMatch: 'full' },
 import { DetailsComponent } from './details/details.component';
 import{PlatformModule} from '@angular/cdk/platform';
 import { CookieService } from 'ngx-cookie-service';
@@ -26,6 +39,10 @@ const appRoutes: Routes = [
   { path:'message', component:MessageComponent },
   { path:'message/:id', component:MessageComponent },
   { path:'home', component:HomepageComponent },
+  { path:'dashboard', component:DashboardComponent },
+  { path:'profil', component:ProfilComponent },
+  { path:'edit-produit', component:DetailsComponent },
+  { path:'liste-produit', component:ProduitsComponent }
   { path:'Filter', component:FilterComponent },
   { path:'Details', component:DetailsComponent },
   { path: '**', redirectTo: 'home' }
@@ -37,6 +54,13 @@ const appRoutes: Routes = [
     MessageComponent,
     FilterComponent,
     DetailsComponent,
+    ProduitsComponent,
+    DashboardComponent,
+    AdminTopNavComponent,
+    AdminLeftNavComponent,
+    DetailsProduitsComponent,
+    ProfilComponent,
+    AdminHomepageComponent,
   ],
   imports: [
     PlatformModule,

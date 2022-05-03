@@ -1,0 +1,11 @@
+*{
+    box-sizing: revert;
+    /* width: 100%; */
+    font-family: system-ui;
+}
+
+.profil-img-content {width: 40%;margin-right: 15px;}
+
+.modal-select select {height: 45px;}
+
+.modal-select i {height: 22px!important;display: flex;justify-content: center;align-items: center;}

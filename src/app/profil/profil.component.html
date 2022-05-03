@@ -1,0 +1,117 @@
+<div class="nav-md">
+
+    <div class="container body">
+        <div class="main_container">
+            <app-admin-top-nav></app-admin-top-nav>
+            <app-admin-left-nav></app-admin-left-nav>
+
+            <div class="main-panel right_col" role="main">
+                <div class="main-panel-banner">
+                    <div class="main-title">
+                        <h2>Gestion profil</h2>
+                    </div>
+                    <div class="nav-rac">
+                        <ul class="nav-rac-content">
+                            <li class="nav-rac-item"><a href="dashboard">Dashboard</a></li>
+                            <li class="nav-rac-item active"><a href="#">Gestion profil</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- insertion main content dashboard -->
+                <!-- page content -->
+                <div class="content-main-panel">
+                    <div class="contenu-principal">
+
+                        <div class="content-admin-form">
+                            <form action="#">
+                                <div class="form-row">
+                                    <div class="profil-img-content">
+                                        <label class="label-contetn" for="apercu0">Image Profil</label>
+                                        <input type="file" data-file="iphone.jpg" hidden
+                                            onchange="updateImageDisplay('apercu0', 'preview0')" id="apercu0"
+                                            name="apercu0" accept="image/png, image/jpeg">
+
+                                        <div class="preview preview0" id="previewFile">
+                                            <p><img
+                                                    src="https://dummyimage.com/300/fcfcfc/a5a6bd.jpg&text=Image+Manquante">
+                                            </p>
+                                            <!-- <p><i class="fa-10x fa-image fas text-action-urgente"></i></p> -->
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="item-form">
+                                            <label for="user-name">Nom</label>
+                                            <i class="fa-user fas"></i>
+                                            <input type="text" name="user-name" id="user-name">
+                                        </div>
+                                        <div class="item-form">
+                                            <label for="user-surname">Prénom</label>
+                                            <i class="fa-user fas"></i>
+                                            <input type="text" name="user-surname" id="user-surname">
+                                        </div>
+                                        <div class="item-form">
+                                            <label for="user-email">Email</label>
+                                            <i class="fa-envelope fas"></i>
+                                            <input type="email" name="user-email" id="user-email">
+                                        </div>
+                                        <div class="item-form">
+                                            <label for="user-phone">Télephone</label>
+                                            <i class="fa-phone fas"></i>
+                                            <input type="number" name="user-phone" id="user-phone">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="form-item geoloc">
+                                            <div class="item-form modal-select SelectRegion">
+                                                <label>Choisir votre région</label>
+                                                <i class="fas fa-map-marker-alt"></i>
+                                                <select class="filter-select-localisation select-ville "
+                                                    id="SelectRegion">
+                                                    <option>Régions</option>
+                                                    <option value="1">NORD</option>
+                                                    <option value="2">CENTRE</option>
+                                                    <option value="3">LITTORAL</option>
+                                                </select>
+                                            </div>
+                                            <div class="item-form modal-select">
+                                                <label>Choisir votre ville</label>
+                                                <i class="fas fa-city"></i>
+                                                <select class="filter-select-localisation select-quartier "
+                                                    id="SelectVille">
+                                                    <option>Villes</option>
+                                                </select>
+                                            </div>
+
+                                            <div class="item-form modal-select">
+                                                <label>Choisir votre quartier</label>
+                                                <i class="fas fa-home"></i>
+                                                <select class="filter-select-localisation select-quartier "
+                                                    id="SelectQuartier">
+                                                    <option class="default">Quartier</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-item"></div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row">
+
+                                </div>
+                                <div class="content-btn-save">
+                                    <button type="submit" class="btn bg-bleue">Enregistrer</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- /page content -->
+
+            </div>
+
+        </div>
+    </div>
+</div>
